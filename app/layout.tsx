@@ -1,11 +1,11 @@
 import type React from "react"
-import type { Metadata } from "next/types"
+import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import { cookies } from "next/headers"
 
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/app-sidebar"
 import { ThemeProvider } from "@/components/theme-provider"
+import { AuthProvider } from "@/lib/auth-context"
+import { LayoutWrapper } from "@/components/layout-wrapper"
 
 import "./globals.css"
 
@@ -22,22 +22,18 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const cookieStore = cookies()
-  const defaultOpen = cookieStore.get("sidebar:state")?.value === "true"
+  const cookieStore = await cookies();
+  const defaultOpen = cookieStore.get("sidebar:state")?.value === "true";
 
   return (
     <html lang="en" suppressHydrationWarning className="overflow-x-hidden">
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
-          <SidebarProvider defaultOpen={defaultOpen}>
-            <AppSidebar />
-            <main className="flex flex-col flex-1 min-h-screen bg-supply-background text-supply-text dark:bg-gray-900 dark:text-gray-200">
-              <div className="p-4 md:p-6 lg:hidden">
-                <SidebarTrigger />
-              </div>
+          <AuthProvider>
+            <LayoutWrapper defaultOpen={defaultOpen}>
               {children}
-            </main>
-          </SidebarProvider>
+            </LayoutWrapper>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

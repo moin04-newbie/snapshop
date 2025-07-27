@@ -1,7 +1,8 @@
 "use client"
 
 import Link from "next/link"
-import { Home, Truck, Package, ShoppingCart, Star, Group, ChevronUp, Settings, User2, ShieldCheck } from "lucide-react"
+import { Home, Truck, Package, ShoppingCart, Star, Group, ChevronUp, Settings, User2, ShieldCheck, LogOut } from "lucide-react"
+import { useAuth } from "@/lib/auth-context"
 
 import {
   Sidebar,
@@ -57,6 +58,11 @@ const adminMenuItem = {
 export function AppSidebar() {
   // In a real application, you would check user roles here
   const isAdmin = true // Mocking admin access for demonstration
+  const { user, logout } = useAuth()
+
+  const handleLogout = async () => {
+    await logout()
+  }
 
   return (
     <Sidebar collapsible="icon" variant="sidebar">
@@ -140,15 +146,27 @@ export function AppSidebar() {
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton tooltip="User Menu">
                   <User2 />
-                  <span className="group-data-[state=collapsed]:hidden">Vendor Name</span>
+                  <span className="group-data-[state=collapsed]:hidden">
+                    {user?.email?.split('@')[0] || 'Vendor'}
+                  </span>
                   <ChevronUp className="ml-auto h-4 w-4 group-data-[state=collapsed]:hidden" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent side="top" className="w-[--radix-popper-anchor-width]">
-                <DropdownMenuItem>
-                  <span>Account</span>
+                <DropdownMenuItem asChild>
+                  <Link href="/profile">
+                    <User2 className="h-4 w-4 mr-2" />
+                    <span>Profile</span>
+                  </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/settings">
+                    <Settings className="h-4 w-4 mr-2" />
+                    <span>Settings</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogout}>
+                  <LogOut className="h-4 w-4 mr-2" />
                   <span>Sign out</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>

@@ -1,5 +1,9 @@
+"use client";
 import Image from "next/image"
 import Link from "next/link"
+import { useAuth } from "@/lib/auth-context"
+import { useRouter } from "next/navigation"
+import { useEffect } from "react"
 import {
   Package,
   MapPin,
@@ -11,12 +15,39 @@ import {
   MessageSquare,
   ArrowUp,
   ArrowDown,
+  Loader2,
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 export default function LandingPage() {
+  const { user, loading } = useAuth();
+  const router = useRouter();
+
+  // Redirect unauthenticated users to auth page
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push("/auth");
+    }
+  }, [user, loading, router]);
+
+  // Show loading while checking auth state
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Don't render if user is not authenticated (will redirect)
+  if (!user) {
+    return null;
+  }
   const priceTickerItems = [
     { item: "Tomato", price: "₹18/kg", trend: "down" },
     { item: "Onion", price: "₹26/kg", trend: "up" },

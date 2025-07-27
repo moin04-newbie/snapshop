@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { ProtectedRoute } from "@/components/protected-route"
 
 const mockOrders = [
   {
@@ -72,7 +73,8 @@ const mockFavoriteSuppliers = [
 
 export default function VendorDashboard() {
   return (
-    <div className="flex-1 p-4 md:p-6 lg:p-8">
+    <ProtectedRoute>
+      <div className="flex-1 p-4 md:p-6 lg:p-8">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">Vendor Dashboard</h1>
 
@@ -236,5 +238,6 @@ export default function VendorDashboard() {
         </Card>
       </div>
     </div>
+    </ProtectedRoute>
   )
 }
