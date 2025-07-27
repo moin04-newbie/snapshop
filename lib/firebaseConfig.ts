@@ -1,7 +1,7 @@
 import { initializeApp, getApps, getApp } from "firebase/app";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAcXhdsn0dGpfSf5bWwkvV9njElmFjmSCg",
+  apiKey: "",
   authDomain: "scrapconnect-7877a.firebaseapp.com",
   projectId: "scrapconnect-7877a",
   storageBucket: "scrapconnect-7877a.firebasestorage.app",
