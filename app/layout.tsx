@@ -1,11 +1,12 @@
 import type React from "react"
-import type { Metadata } from "next"
+import type { Metadata } from "next/types"
 import { Inter } from "next/font/google"
 import { cookies } from "next/headers"
 
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+import { AppSidebar } from "@/components/app-sidebar"
 import { ThemeProvider } from "@/components/theme-provider"
 import { AuthProvider } from "@/lib/auth-context"
-import { LayoutWrapper } from "@/components/layout-wrapper"
 
 import "./globals.css"
 
@@ -30,9 +31,15 @@ export default async function RootLayout({
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           <AuthProvider>
-            <LayoutWrapper defaultOpen={defaultOpen}>
-              {children}
-            </LayoutWrapper>
+            <SidebarProvider defaultOpen={defaultOpen}>
+              <AppSidebar />
+              <main className="flex flex-col flex-1 min-h-screen bg-supply-background text-supply-text dark:bg-gray-900 dark:text-gray-200">
+                <div className="p-4 md:p-6 lg:hidden">
+                  <SidebarTrigger />
+                </div>
+                {children}
+              </main>
+            </SidebarProvider>
           </AuthProvider>
         </ThemeProvider>
       </body>
