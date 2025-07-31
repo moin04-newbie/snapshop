@@ -2,6 +2,9 @@
 
 SupplySnap connects Indian street food vendors with trusted raw material suppliers, featuring real-time pricing, group orders, and supplier discovery.
 
+## 🚀 Live Demo
+Visit the live application: [SupplySnap on Vercel](https://snapshop-lkrq.vercel.app)
+
 ## Features
 
 - **Supplier Discovery**: Find and compare verified suppliers
